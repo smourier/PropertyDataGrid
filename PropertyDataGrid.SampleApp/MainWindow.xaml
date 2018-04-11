@@ -4,9 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PropertyDataGrid.SampleApp"
+        xmlns:pdg="clr-namespace:PropertyDataGrid;assembly=PropertyDataGrid"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        
+        <Grid.Resources>
+            <local:Customer x:Key="Customer"/>
+        </Grid.Resources>
+        <pdg:PropertyGrid Name="MyGrid" SelectedObject="{StaticResource Customer}" Width="300" Height="300" />
     </Grid>
 </Window>
