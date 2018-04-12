@@ -44,8 +44,14 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyGrid.cs" />
+    <Compile Include="PropertyGridProperty.cs" />
+    <Compile Include="PropertyGridPropertyDescriptor.cs" />
+    <Compile Include="PropertyGridSource.cs" />
+    <Compile Include="PropertyGridTypeDescriptor.cs" />
+    <Compile Include="Utilities\Decamelizer.cs" />
     <Compile Include="Utilities\ChangeTrackingDictionaryObject.cs" />
     <Compile Include="Utilities\Conversions.cs" />
+    <Compile Include="Utilities\DecamelizeOptions.cs" />
     <Compile Include="Utilities\DictionaryObject.cs" />
     <Compile Include="Utilities\DictionaryObjectProperty.cs" />
     <Compile Include="Utilities\DictionaryObjectPropertyChangedEventArgs.cs" />
