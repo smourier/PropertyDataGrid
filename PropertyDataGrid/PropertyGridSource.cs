@@ -10,18 +10,23 @@ namespace PropertyDataGrid
 {
     public class PropertyGridSource : IListSource
     {
-        public PropertyGridSource(object selectedObject)
+        public PropertyGridSource(PropertyGrid grid, object selectedObject)
         {
+            if (grid == null)
+                throw new ArgumentNullException(nameof(grid));
+
             if (selectedObject == null)
                 throw new ArgumentNullException(nameof(selectedObject));
 
+            Grid = grid;
             SelectedObject = selectedObject;
         }
 
+        public PropertyGrid Grid { get; }
         public object SelectedObject { get; }
         bool IListSource.ContainsListCollection => false;
-        IList IListSource.GetList() => throw new NotImplementedException();
+        IList IListSource.GetList() => NewTypeDescriptor().Properties;
 
-        public virtual PropertyGridTypeDescriptor GetTypeDescriptor() => new PropertyGridTypeDescriptor(SelectedObject);
+        public virtual PropertyGridTypeDescriptor NewTypeDescriptor() => new PropertyGridTypeDescriptor(this);
     }
 }

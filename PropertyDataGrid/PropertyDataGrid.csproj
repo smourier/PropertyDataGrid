@@ -48,6 +48,7 @@
     <Compile Include="PropertyGridPropertyDescriptor.cs" />
     <Compile Include="PropertyGridSource.cs" />
     <Compile Include="PropertyGridTypeDescriptor.cs" />
+    <Compile Include="PropertyGridException.cs" />
     <Compile Include="Utilities\Decamelizer.cs" />
     <Compile Include="Utilities\ChangeTrackingDictionaryObject.cs" />
     <Compile Include="Utilities\Conversions.cs" />

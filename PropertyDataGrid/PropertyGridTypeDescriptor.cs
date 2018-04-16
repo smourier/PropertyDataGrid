@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -9,29 +10,36 @@ namespace PropertyDataGrid
 {
     public class PropertyGridTypeDescriptor
     {
-        public PropertyGridTypeDescriptor(object selectedObject)
+        public PropertyGridTypeDescriptor(PropertyGridSource source)
         {
-            if (selectedObject == null)
-                throw new ArgumentNullException(nameof(selectedObject));
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
 
-            SelectedObject = selectedObject;
+            Source = source;
+            Properties = new ObservableCollection<PropertyGridProperty>();
+            AddProperties();
         }
 
-        public object SelectedObject { get; }
+        public PropertyGridSource Source { get; }
+        public virtual ObservableCollection<PropertyGridProperty> Properties { get; }
 
         public virtual PropertyGridPropertyDescriptor NewPropertyDescriptor(string name) => new PropertyGridPropertyDescriptor(this, name);
 
-        public virtual IEnumerable<PropertyGridPropertyDescriptor> GetProperties()
+        public virtual void AddProperties()
         {
-            foreach (PropertyDescriptor descriptor in TypeDescriptor.GetProperties(SelectedObject))
+            Properties.Clear();
+            foreach (PropertyDescriptor descriptor in TypeDescriptor.GetProperties(Source.SelectedObject))
             {
-                var prop = NewPropertyDescriptor(descriptor.Name);
-                prop.Category = descriptor.Category;
-                prop.Description = descriptor.Description;
-                prop.DisplayName = descriptor.DisplayName;
-                prop.IsBrowsable = descriptor.IsBrowsable;
-                prop.IsReadOnly = descriptor.IsReadOnly;
-                yield return prop;
+                var desc = NewPropertyDescriptor(descriptor.Name);
+                desc.Category = descriptor.Category;
+                desc.Description = descriptor.Description;
+                desc.DisplayName = descriptor.DisplayName;
+                desc.IsBrowsable = descriptor.IsBrowsable;
+                desc.IsReadOnly = descriptor.IsReadOnly;
+                desc.PropertyDescriptor = descriptor;
+
+                var prop = new PropertyGridProperty(desc, Source.SelectedObject);
+                Properties.Add(prop);
             }
         }
     }

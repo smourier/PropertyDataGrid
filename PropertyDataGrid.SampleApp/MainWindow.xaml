@@ -11,6 +11,6 @@
         <Grid.Resources>
             <local:Customer x:Key="Customer"/>
         </Grid.Resources>
-        <pdg:PropertyGrid Name="MyGrid" SelectedObject="{StaticResource Customer}" Width="300" Height="300" />
+        <pdg:PropertyGrid Name="MyGrid" SelectedObject="{StaticResource Customer}" />
     </Grid>
 </Window>

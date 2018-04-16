@@ -3,12 +3,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:PropertyDataGrid">
 
-    <CollectionViewSource x:Key="PropertiesSource">
-        <CollectionViewSource.GroupDescriptions>
-            <PropertyGroupDescription PropertyName="Category" />
-        </CollectionViewSource.GroupDescriptions>
-    </CollectionViewSource>
-
     <Style TargetType="{x:Type local:PropertyGrid}">
         <Setter Property="Template">
             <Setter.Value>
@@ -19,13 +13,22 @@
                         CanUserReorderColumns="False"
                         CanUserResizeRows="False"
                         FrozenColumnCount="1"
-                        HeadersVisibility="None"
-                        ItemsSource="{Binding Source={StaticResource PropertiesSource}}"
+                        HeadersVisibility="All"
                         >
                         <DataGrid.Columns>
                             <DataGridTemplateColumn Header="Name" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding Name, Mode=OneTime}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                             <DataGridTemplateColumn Header="Value" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding Value}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,7 @@ namespace PropertyDataGrid
 
         public PropertyGridTypeDescriptor TypeDescriptor { get; }
         public string Name { get; }
+        public PropertyDescriptor PropertyDescriptor { get; set; }
         public virtual bool IsReadOnly { get => DictionaryObjectGetPropertyValue<bool>(); set => DictionaryObjectSetPropertyValue(value); }
         public virtual bool IsBrowsable { get => DictionaryObjectGetPropertyValue<bool>(); set => DictionaryObjectSetPropertyValue(value); }
         public virtual string Category { get => DictionaryObjectGetPropertyValue<string>(); set => DictionaryObjectSetPropertyValue(value); }
@@ -30,5 +32,12 @@ namespace PropertyDataGrid
         public virtual string DisplayName { get => DictionaryObjectGetPropertyValue<string>(); set => DictionaryObjectSetPropertyValue(value); }
         public virtual bool HasDefaultValue { get => DictionaryObjectGetPropertyValue<bool>(); set => DictionaryObjectSetPropertyValue(value); }
         public virtual object DefaultValue { get => DictionaryObjectGetPropertyValue<object>(); set => DictionaryObjectSetPropertyValue(value); }
+
+        public virtual object GetValue()
+        {
+            var obj = TypeDescriptor.Source.SelectedObject;
+            var value = PropertyDescriptor.GetValue(obj);
+            return value;
+        }
     }
 }
