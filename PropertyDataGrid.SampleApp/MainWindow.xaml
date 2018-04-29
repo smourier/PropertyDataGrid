@@ -11,6 +11,13 @@
         <Grid.Resources>
             <local:Customer x:Key="Customer"/>
         </Grid.Resources>
-        <pdg:PropertyGrid Name="MyGrid" SelectedObject="{StaticResource Customer}" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <WrapPanel Margin="5,0,5,0" Orientation="Horizontal" VerticalAlignment="Center">
+            <CheckBox IsChecked="{Binding GroupByCategory, ElementName=MyGrid}">Group by Category</CheckBox>
+        </WrapPanel>
+        <pdg:PropertyGrid Grid.Row="1" Name="MyGrid" SelectedObject="{StaticResource Customer}" />
     </Grid>
 </Window>

@@ -8,7 +8,7 @@ using PropertyDataGrid.Utilities;
 
 namespace PropertyDataGrid
 {
-    public class PropertyGridProperty : ChangeTrackingDictionaryObject
+    public class PropertyGridProperty : ChangeTrackingDictionaryObject, IComparable, IComparable<PropertyGridProperty>
     {
         public PropertyGridProperty(PropertyGridPropertyDescriptor descriptor, object selectedObject)
         {
@@ -27,6 +27,7 @@ namespace PropertyDataGrid
             DefaultValue = descriptor.DefaultValue;
             Value = descriptor.GetValue();
             DictionaryObjectCommitChanges();
+            Description = descriptor.Description;
         }
 
         public PropertyGridPropertyDescriptor Descriptor { get; }
@@ -40,5 +41,16 @@ namespace PropertyDataGrid
         public virtual bool HasDefaultValue { get => DictionaryObjectGetPropertyValue<bool>(); set => DictionaryObjectSetPropertyValue(value); }
         public virtual object DefaultValue { get => DictionaryObjectGetPropertyValue<object>(); set => DictionaryObjectSetPropertyValue(value); }
         public virtual object Value { get => DictionaryObjectGetPropertyValue<object>(); set => DictionaryObjectSetPropertyValue(value); }
+
+        int IComparable.CompareTo(object obj) => CompareTo(obj as PropertyGridProperty);
+        public override string ToString() => Name;
+
+        public virtual int CompareTo(PropertyGridProperty other)
+        {
+            if (other == null)
+                throw new ArgumentNullException(nameof(other));
+
+            return DisplayName.CompareTo(other.DisplayName);
+        }
     }
 }

@@ -10,6 +10,7 @@
                     <DataGrid x:Name="PART_DataGrid"
                         AutoGenerateColumns="False"
                         SelectionMode="Single"
+                        SelectionUnit="Cell"
                         CanUserReorderColumns="False"
                         CanUserResizeRows="False"
                         FrozenColumnCount="1"
@@ -19,18 +20,63 @@
                             <DataGridTemplateColumn Header="Name" Width="*">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBox Text="{Binding Name, Mode=OneTime}" />
+                                        <TextBlock Text="{Binding DisplayName, Mode=OneTime}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellStyle>
+                                    <Style TargetType="DataGridCell">
+                                        <Setter Property="ToolTip" Value="{Binding Description}" />
+                                    </Style>
+                                </DataGridTemplateColumn.CellStyle>
                             </DataGridTemplateColumn>
                             <DataGridTemplateColumn Header="Value" Width="*">
-                                <DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellTemplateSelector>
+                                    <local:PropertyGridCellTemplateSelector>
+                                        
+                                    </local:PropertyGridCellTemplateSelector>
+                                </DataGridTemplateColumn.CellTemplateSelector>
+                                <!--<DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBox Text="{Binding Value}" />
                                     </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn.CellTemplate>-->
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
+                        <DataGrid.GroupStyle>
+                            <GroupStyle>
+                                <GroupStyle.ContainerStyle>
+                                    <Style TargetType="{x:Type GroupItem}">
+                                        <Setter Property="Margin" Value="0,0,0,5"/>
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type GroupItem}">
+                                                    <Expander IsExpanded="True" Padding="2" >
+                                                        <Expander.Header>
+                                                            <DockPanel>
+                                                                <TextBlock FontWeight="Bold" Text="{Binding Path=Name}" Margin="5,0,0,0" />
+                                                            </DockPanel>
+                                                        </Expander.Header>
+                                                        <Expander.Content>
+                                                            <ItemsPresenter />
+                                                        </Expander.Content>
+                                                    </Expander>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </GroupStyle.ContainerStyle>
+                            </GroupStyle>
+                            <GroupStyle>
+                                <GroupStyle.HeaderTemplate>
+                                    <DataTemplate>
+                                        <DockPanel Background="LightBlue">
+                                            <TextBlock Text="{Binding Path=Name}" Margin="30,0,0,0" />
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </GroupStyle.HeaderTemplate>
+                            </GroupStyle>
+                        </DataGrid.GroupStyle>
+
                     </DataGrid>
                 </ControlTemplate>
             </Setter.Value>

@@ -160,6 +160,7 @@ namespace PropertyDataGrid.SampleApp
         public string WebSite { get => DictionaryObjectGetPropertyValue<string>(); set => DictionaryObjectSetPropertyValue(value); }
 
         [Category("Collections")]
+        [Description("This is the description of ArrayOfStrings")]
         public string[] ArrayOfStrings { get => DictionaryObjectGetPropertyValue<string[]>(); set => DictionaryObjectSetPropertyValue(value); }
 
         [Category("Collections")]

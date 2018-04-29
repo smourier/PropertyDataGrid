@@ -1,10 +1,8 @@
-﻿using System;
+﻿using PropertyDataGrid.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PropertyDataGrid
 {
@@ -28,19 +26,41 @@ namespace PropertyDataGrid
         public virtual void AddProperties()
         {
             Properties.Clear();
+            var list = new List<PropertyGridProperty>();
             foreach (PropertyDescriptor descriptor in TypeDescriptor.GetProperties(Source.SelectedObject))
             {
-                var desc = NewPropertyDescriptor(descriptor.Name);
-                desc.Category = descriptor.Category;
-                desc.Description = descriptor.Description;
-                desc.DisplayName = descriptor.DisplayName;
-                desc.IsBrowsable = descriptor.IsBrowsable;
-                desc.IsReadOnly = descriptor.IsReadOnly;
-                desc.PropertyDescriptor = descriptor;
+                var desc = Convert(descriptor);
+                if (desc == null)
+                    continue;
 
                 var prop = new PropertyGridProperty(desc, Source.SelectedObject);
+                list.Add(prop);
+            }
+            list.Sort();
+
+            foreach (var prop in list)
+            {
                 Properties.Add(prop);
             }
+        }
+
+        protected virtual PropertyGridPropertyDescriptor Convert(PropertyDescriptor descriptor)
+        {
+            if (descriptor == null)
+                throw new ArgumentNullException(nameof(descriptor));
+
+            var desc = NewPropertyDescriptor(descriptor.Name);
+            desc.Category = descriptor.Category.Nullify();
+            desc.Description = descriptor.Description.Nullify();
+            desc.DisplayName = descriptor.DisplayName.Nullify();
+            if (desc.DisplayName == null || desc.DisplayName == desc.Name)
+            {
+                desc.DisplayName = Decamelizer.Decamelize(desc.Name);
+            }
+            desc.IsBrowsable = descriptor.IsBrowsable;
+            desc.IsReadOnly = descriptor.IsReadOnly;
+            desc.PropertyDescriptor = descriptor;
+            return desc;
         }
     }
 }
